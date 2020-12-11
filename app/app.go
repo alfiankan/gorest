@@ -6,9 +6,9 @@ import (
 )
 
 func Start() {
-
-	http.HandleFunc("/greet", greet)
-	http.HandleFunc("/customer", getAllCustomer)
-	log.Fatal(http.ListenAndServe("localhost:8000", nil))
+	mux := http.NewServeMux()
+	mux.HandleFunc("/greet", greet)
+	mux.HandleFunc("/customer", getAllCustomer)
+	log.Fatal(http.ListenAndServe("localhost:8000", mux))
 
 }
