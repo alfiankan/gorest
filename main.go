@@ -28,5 +28,7 @@ func getAllCustomer(w http.ResponseWriter, r *http.Request) {
 		{"Alfiankan", "Solo", "577871"},
 		{"Supardi", "Bandung", "577874"},
 	}
+	//tambah info di header kalau response berupa json app
+	w.Header().Add("Content-Type", "application/jsonß")
 	json.NewEncoder(w).Encode(customers)
 }
