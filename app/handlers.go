@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/alfiankan/gorest/services"
 	"github.com/gorilla/mux"
 )
 
@@ -15,11 +16,15 @@ type Customer struct {
 	Zipcode string
 }
 
+type CustomerHandlers struct {
+	services services.CustomerService
+}
+
 func greet(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello World!")
 }
 
-func getAllCustomer(w http.ResponseWriter, r *http.Request) {
+func (ch *CustomerHandlers) getAllCustomer(w http.ResponseWriter, r *http.Request) {
 	customers := []Customer{
 		{"Alfiankan", "Solo", "577871"},
 		{"Supardi", "Bandung", "577874"},
