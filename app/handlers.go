@@ -25,10 +25,11 @@ func greet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ch *CustomerHandlers) getAllCustomer(w http.ResponseWriter, r *http.Request) {
-	customers := []Customer{
-		{"Alfiankan", "Solo", "577871"},
-		{"Supardi", "Bandung", "577874"},
-	}
+	// customers := []Customer{
+	// 	{"Alfiankan", "Solo", "577871"},
+	// 	{"Supardi", "Bandung", "577874"},
+	// }
+	customers,_ := ch.services.GetAllCustomer()
 	//tambah info di header kalau response berupa json app
 	if r.Header.Get("Content-Type") == "application/xml" {
 		w.Header().Add("Content-Type", "application/xml")
