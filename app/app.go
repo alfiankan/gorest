@@ -20,7 +20,7 @@ func Start() {
 	//mux.HandleFunc("/greet", greet).Methods(http.MethodGet)
 
 	router.HandleFunc("/customers", ch.getAllCustomer).Methods(http.MethodGet)
-	//mux.HandleFunc("/customer/{customer_id:[0-9]+}", getCustomer).Methods(http.MethodGet)
+	router.HandleFunc("/customer/{customer_id:[0-9]+}", ch.getCustomerById).Methods(http.MethodGet)
 	//mux.HandleFunc("/customers", createCustomer).Methods(http.MethodPost)
 
 	log.Fatal(http.ListenAndServe("localhost:8000", router))

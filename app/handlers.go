@@ -29,7 +29,7 @@ func (ch *CustomerHandlers) getAllCustomer(w http.ResponseWriter, r *http.Reques
 	// 	{"Alfiankan", "Solo", "577871"},
 	// 	{"Supardi", "Bandung", "577874"},
 	// }
-	customers,_ := ch.services.GetAllCustomer()
+	customers, _ := ch.services.GetAllCustomer()
 	//tambah info di header kalau response berupa json app
 	if r.Header.Get("Content-Type") == "application/xml" {
 		w.Header().Add("Content-Type", "application/xml")
@@ -40,6 +40,25 @@ func (ch *CustomerHandlers) getAllCustomer(w http.ResponseWriter, r *http.Reques
 
 	}
 
+}
+
+func (ch *CustomerHandlers) getCustomerById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	customers, err := ch.services.GetCustomer(vars["customer_id"])
+
+	if err != nil {
+		fmt.Fprint(w, err.Message)
+	} else {
+
+		if r.Header.Get("Content-Type") == "application/xml" {
+			w.Header().Add("Content-Type", "application/xml")
+			xml.NewEncoder(w).Encode(customers)
+		} else {
+			w.Header().Add("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(customers)
+
+		}
+	}
 }
 
 func getCustomer(w http.ResponseWriter, r *http.Request) {
