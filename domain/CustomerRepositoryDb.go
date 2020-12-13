@@ -25,14 +25,23 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 			log.Println("Error Query")
 			return nil, errs.NewUnexpectedError("Unexpected Database problem")
 		}
+
 	}
 	return &c, nil
 }
 
-func (d CustomerRepositoryDb) FindAll() ([]Customer, error) {
+func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, error) {
+	var result *sql.Rows
+	var err error
+	if status == "" {
 
-	findAllSql := "SELECT * FROM customers"
-	result, err := d.client.Query(findAllSql)
+		findAllSql := "SELECT * FROM customers"
+		result, err = d.client.Query(findAllSql)
+	} else {
+		findAllSql := "SELECT * FROM customers WHERE status = ?"
+		result, err = d.client.Query(findAllSql, status)
+	}
+
 	if err != nil {
 		log.Println("Error Query", err.Error())
 		return nil, err
