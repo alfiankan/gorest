@@ -3,7 +3,7 @@ package domain
 import (
 	"database/sql"
 	"github.com/alfiankan/gorest/errs"
-	"log"
+	"github.com/alfiankan/gorest/logger"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -22,7 +22,7 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("Data Not Found")
 		} else {
-			log.Println("Error Query")
+			logger.Error("Error Query")
 			return nil, errs.NewUnexpectedError("Unexpected Database problem")
 		}
 
@@ -43,7 +43,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, error) {
 	}
 
 	if err != nil {
-		log.Println("Error Query", err.Error())
+		logger.Error("Error Query " + err.Error())
 		return nil, err
 	}
 	customers := make([]Customer, 0)
@@ -51,7 +51,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, error) {
 		var c Customer
 		err := result.Scan(&c.id, &c.Name, &c.City, &c.Zipcode, &c.DateofBirth, &c.Status)
 		if err != nil {
-			log.Println("Error Scanning", err.Error())
+			logger.Error("Error Scanning " + err.Error())
 			return nil, err
 		}
 		customers = append(customers, c)
